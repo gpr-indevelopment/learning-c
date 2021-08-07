@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1628307745 source:/home/gabriel.pimenta@jv01.local/Documentos/projetos-pessoais/Mestrado/PAA/ExParcFinanciamento/main.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
