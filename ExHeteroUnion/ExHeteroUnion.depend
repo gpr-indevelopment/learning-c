@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1628346420 source:/home/gabriel.pimenta@jv01.local/Documentos/projetos-pessoais/Mestrado/learning-c/ExHeteroUnion/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

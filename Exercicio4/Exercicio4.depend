@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1628369505 source:/home/gabriel.pimenta@jv01.local/Documentos/projetos-pessoais/Mestrado/learning-c/Exercicio4/main.c
+	<stdio.h>
+	<stdlib.h>
+
