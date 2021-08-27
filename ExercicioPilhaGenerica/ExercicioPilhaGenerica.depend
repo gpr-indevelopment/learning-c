@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1630028743 source:/home/gabriel.pimenta@jv01.local/Documentos/projetos-pessoais/Mestrado/learning-c/ExercicioPilhaGenerica/main.c
+	<stdio.h>
+	<stdlib.h>
+	"pilha_publico.h"
+
+1630028718 source:/home/gabriel.pimenta@jv01.local/Documentos/projetos-pessoais/Mestrado/learning-c/ExercicioPilhaGenerica/pilha.c
+	"pilha_publico.h"
+	<stdlib.h>
+	<stdio.h>
+
+1630028671 /home/gabriel.pimenta@jv01.local/Documentos/projetos-pessoais/Mestrado/learning-c/ExercicioPilhaGenerica/pilha_publico.h
+

@@ -41,8 +41,17 @@ void trocarVogal(char *frase) {
     }
 }
 
+char *fF (char *p3) {
+    return p3;
+}
+
 int main()
 {
+
+    int i=5;
+    int *p;
+    p = &i;
+    printf("%p %d %d %d %d \n", p, *p+2, **&p, 3**p, **&p+4);
     printf("Digite uma frase de até 100 caracteres\n");
     char frase[100];
     fgets(frase, 100, stdin);
