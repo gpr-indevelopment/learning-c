@@ -13,3 +13,18 @@
 * `isFull(pQueue pQueue)`: Verifica se a fila está cheia. Retorna 1 se `true` e 0 se `false`.
 
 * `void destroy(pQueue pQueue)`: Desaloca todos os elementos e estruturas de suporte a fila.
+
+## Executando com VS Code
+
+1. Vá na aba "Terminal".
+2. Selecione "Run task...".
+3. Selecione uma opção de run: Linux ou Windows.
+4. As configurações de run se encontram no arquivo [tasks.json](./.vscode/tasks.json).
+
+## Executando com gcc e linha de comando
+
+Na pasta do projeto:
+
+```
+gcc -Wall ./Aplicacao.c ./Fila.c ./pilha.o -o Aplicacao
+```
