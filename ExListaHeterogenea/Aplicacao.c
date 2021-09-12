@@ -1,6 +1,4 @@
-#include <Fila_publico.h>
-#include <stdio.h>
-#include <string.h>
+#include "Aplicacao.h"
 
 void whenQueueStartsThenItsEmpty() {
     pQueue pQueue = init(10);
@@ -100,9 +98,7 @@ void whenEnqueueSameDataTypesThenDequeuesCorrectly() {
     enqueue(pQueue, &someInt2, sizeof(int));
     enqueue(pQueue, &someInt3, sizeof(int));
     int* dequeuedElement1 = dequeue(pQueue);
-    printf("%d\n", *dequeuedElement1);
     int* dequeuedElement2 = dequeue(pQueue);
-    printf("%d\n", *dequeuedElement2);
     int* dequeuedElement3 = dequeue(pQueue);
     if(*dequeuedElement1 == someInt1 
         && *dequeuedElement2 == someInt2
@@ -119,23 +115,65 @@ void whenAddDifferentDataTypesToQueueThenDequeuesCorrectly() {
     int someInt = 5;
     long someLong = 123456789111;
     enqueue(pQueue, &someInt, sizeof(int));
-    enqueue(pQueue, &someInt, sizeof(int));
-    //enqueue(pQueue, strElement, sizeof(strElement));
+    enqueue(pQueue, &someLong, sizeof(long));
+    enqueue(pQueue, strElement, sizeof(strElement));
     int* dequeuedElement1 = dequeue(pQueue);
-    printf("%d\n", *dequeuedElement1);
-    int* dequeuedElement2 = dequeue(pQueue);
-    printf("%d\n", *dequeuedElement2);
+    long* dequeuedElement2 = dequeue(pQueue);
     char* dequeuedElement3 = dequeue(pQueue);
-
     void* dequeuedElement4 = dequeue(pQueue);
-    if(*dequeuedElement1 == someLong 
-        && *dequeuedElement2 == someInt
+    if(*dequeuedElement1 == someInt 
+        && *dequeuedElement2 == someLong
         && strcmp(dequeuedElement3, strElement) == 0
         && dequeuedElement4 == NULL) {
         printf("whenAddDifferentDataTypesToQueueThenDequeuesCorrectly: Success!\n");
     } else {
         printf("whenAddDifferentDataTypesToQueueThenDequeuesCorrectly: Failed!\n");
     }
+}
+
+void finalTest() {
+    printf("Teste final do professor \n");
+    pPilha pPilha, pPilha2;
+    ppPilha pPilhaDequeued;
+    // Crie uma fila circular c/ 3 posições
+    pQueue pQueue = init(3);
+    // Crie 1 pilha c/ 10 posições
+    criapilha(&pPilha, 10, sizeof(int));
+    // Empilhe (0,1, ... 8) (empilhei na pilha1)
+    int i, j;
+    for(i = 0; i < 9; i++) {
+        int currentI = i;
+        empilha(pPilha, &currentI);
+    }
+    // enfileire a pilha
+    enqueue(pQueue, &pPilha, sizeof(void *));
+    // Crie 1 pilha c/ 10 posições
+    criapilha(&pPilha2, 10, sizeof(int));
+    // Empilhe (8,7, ... 0)
+    for(j = 8; j >= 0; j--) {
+        int currentJ = j;
+        empilha(pPilha2, &currentJ);
+    }
+    // enfileire a pilha
+    enqueue(pQueue, &pPilha2, sizeof(void *));
+    // Desempilhe 4 elementos (não especificado, desempilhei a pilha 1 já que vai ser a primeira desenfileirada)
+    int desemp1, desemp2, desemp3, desemp4, topoRet;
+    desempilha(pPilha, &desemp1);
+    desempilha(pPilha, &desemp2);
+    desempilha(pPilha, &desemp3);
+    desempilha(pPilha, &desemp4);
+    // desenfileire a pilha
+    pPilhaDequeued = dequeue(pQueue);
+    // Imprima o topo da pilha retornada
+    topo(*pPilhaDequeued, &topoRet);
+    printf("Topo da pilha retornada: %d\n", topoRet);
+    // Desenfileire a pilha
+    dequeue(pQueue);
+    // Destrua a pilha (destruí as duas)
+    destroipilha(&pPilha);
+    destroipilha(&pPilha2);
+    // Destrua a fila
+    destroy(pQueue);
 }
 
 int main() {
@@ -149,4 +187,5 @@ int main() {
     whenEnqueueAndMaxSizeIsOneThenDequeueCorrectly();
     whenEnqueueSameDataTypesThenDequeuesCorrectly();
     whenAddDifferentDataTypesToQueueThenDequeuesCorrectly();
+    finalTest();
 }

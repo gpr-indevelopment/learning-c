@@ -9,6 +9,7 @@
           "-Wall",
           "Aplicacao.c",
           "Fila.c",
+          "pilha.o",
           "-o",
           "Aplicacao"
         ],
