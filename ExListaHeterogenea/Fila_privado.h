@@ -7,8 +7,7 @@ struct Queue {
     int max_items;
     int current_allocated_mem;
     int current_num_items;
+    int current_start_mem_offset;
     int* item_sizes;
     void* storage;
 };
-
-void resolveCircularMechanism(pQueue pQueue);

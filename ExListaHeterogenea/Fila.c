@@ -12,34 +12,51 @@ pQueue init(int maxItems) {
     pQueue->storage = NULL;
     pQueue->current_allocated_mem = 0;
     pQueue->current_num_items = 0;
+    pQueue->current_start_mem_offset = 0;
     return pQueue;
 }
 
 void* enqueue(pQueue pQueue, void* element, int elementSize) {
-    resolveCircularMechanism(pQueue);
+    if(isFull(pQueue) == 1) {
+        return NULL;
+    }
     pQueue->current_allocated_mem += elementSize;
     if (pQueue->storage == NULL) {
-        pQueue->storage = malloc(elementSize);
-        memcpy(pQueue->storage, element, elementSize);
+        pQueue->storage = malloc(pQueue->current_allocated_mem);
+        memcpy(pQueue->storage, element, pQueue->current_allocated_mem);
     } else {
         pQueue->storage = realloc(pQueue->storage, pQueue->current_allocated_mem);
-        void* destAddr = pQueue->storage + pQueue->current_allocated_mem;
+        void* destAddr = pQueue->storage + pQueue->current_allocated_mem - elementSize;
         memcpy(destAddr, element, elementSize);
     }
     pQueue->item_sizes[pQueue->end] = elementSize;
-    pQueue->end++;
+    if(++pQueue->end >= pQueue->max_items) {
+        pQueue->end = 0;
+    }
+    pQueue->current_num_items++;
     return element;
 }
 
 void* dequeue(pQueue pQueue) {
+    if(isEmpty(pQueue) == 1) {
+        return NULL;
+    }
     int dequeuedElementSize = pQueue->item_sizes[pQueue->start];
-    pQueue->start
-    return &element;
+    void *element_address = malloc(dequeuedElementSize);
+    memcpy(element_address, pQueue->storage + pQueue->current_start_mem_offset, dequeuedElementSize);
+    pQueue->current_start_mem_offset += dequeuedElementSize;
+    if(++pQueue->start >= pQueue->max_items) {
+        pQueue->start = 0;
+        pQueue->current_start_mem_offset = 0;
+    }
+    pQueue->current_allocated_mem-=dequeuedElementSize;
+    pQueue->current_num_items--;
+    return element_address;
 }
 
 int isEmpty(pQueue pQueue) {
     int result = 0;
-    if (pQueue->start == 0 && pQueue->end == 0) {
+    if (pQueue->current_num_items == 0) {
         result = 1;
     }
     return result;
@@ -47,24 +64,13 @@ int isEmpty(pQueue pQueue) {
 
 int isFull(pQueue pQueue) {
     int result = 0;
-    if (pQueue->end >= pQueue->max_items) {
+    if (pQueue->current_num_items >= pQueue->max_items) {
         result = 1;
     }
     return result;
 }
 
 void destroy(pQueue pQueue) {
-    free(pQueue->item_sizes);
     free(pQueue->storage);
     free(pQueue);
-}
-
-void resolveCircularMechanism(pQueue pQueue) {
-    if(pQueue->end >= pQueue->max_items) {
-        pQueue->end = 0;
-        pQueue->start+=1;
-    }
-    if(pQueue->start >= pQueue->max_items) {
-        pQueue->start = 0;
-    }
 }
