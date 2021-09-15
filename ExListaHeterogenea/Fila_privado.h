@@ -6,7 +6,7 @@ struct Queue {
     int start;
     // Índice do último da fila
     int end;
-    // Número máximo de itens, informado no init
+    // Número máximo de itens, informado no init (estático)
     int max_items;
     // Array que guarda o tamanho dos itens na fila, suporte a heterogeneidade
     int* item_sizes;

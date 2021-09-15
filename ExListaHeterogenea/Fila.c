@@ -21,6 +21,7 @@ void* enqueue(pQueue pQueue, void* element, int elementSize) {
     }
     pQueue->storage[pQueue->end] = malloc(elementSize);
     memcpy(pQueue->storage[pQueue->end], element, elementSize);
+    // Essa atribuição só funciona pois fizemos calloc no init. Se tivessemos feito um malloc seria necessário um memcpy
     pQueue->item_sizes[pQueue->end] = elementSize;
     if(++pQueue->end >= pQueue->max_items) {
         pQueue->end = 0;
@@ -34,7 +35,7 @@ void* dequeue(pQueue pQueue) {
         return NULL;
     }
     int dequeuedElementSize = pQueue->item_sizes[pQueue->start];
-    void *element_address = malloc(dequeuedElementSize);
+    void* element_address = malloc(dequeuedElementSize);
     memcpy(element_address, pQueue->storage[pQueue->start], dequeuedElementSize);
     free(pQueue->storage[pQueue->start]);
     pQueue->item_sizes[pQueue->start] = 0;
@@ -65,10 +66,8 @@ void destroy(pQueue pQueue) {
     int i;
     // Já que o storage guarda ponteiros, precisamos liberar o conteúdo deles
     for (i = 0; i < pQueue->max_items; i++) {
-        int currentSize = pQueue->item_sizes[i];
-        if(currentSize > 0) {
-            free(pQueue->storage[i]);
-        }
+        void* el = dequeue(pQueue);
+        free(el);
     }
     free(pQueue->storage);
     free(pQueue->item_sizes);

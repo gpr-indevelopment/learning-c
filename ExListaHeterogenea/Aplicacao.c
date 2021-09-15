@@ -8,6 +8,7 @@ void whenQueueStartsThenItsEmpty() {
     } else {
         printf("whenQueueStartsThenItsEmpty: Failed!\n");
     }
+    destroy(pQueue);
 }
 
 void whenQueueIsDestroyedThenSuccess() {
@@ -25,6 +26,7 @@ void whenEnqueueThenReturnsTheQueuedElement() {
     } else {
         printf("whenEnqueueThenReturnsTheQueuedElement: Failed!\n");
     }
+    destroy(pQueue);
 }
 
 void whenQueueIsFullThenIsFull() {
@@ -38,6 +40,7 @@ void whenQueueIsFullThenIsFull() {
     } else {
         printf("whenQueueIsFullThenIsFull: Failed!\n");
     }
+    destroy(pQueue);
 }
 
 void whenEnqueueOnFullListThenReturnsNull() {
@@ -50,6 +53,7 @@ void whenEnqueueOnFullListThenReturnsNull() {
     } else {
         printf("whenEnqueueOnFullListThenReturnsNull: Failed!\n");
     }
+    destroy(pQueue);
 }
 
 void whenDequeueAndQueueIsEmptyThenReturnsNull() {
@@ -60,6 +64,7 @@ void whenDequeueAndQueueIsEmptyThenReturnsNull() {
     } else {
         printf("whenDequeueAndQueueIsEmptyThenReturnsNull: Failed!\n");
     }
+    destroy(pQueue);
 }
 
 void whenEnqueueAndDequeueTheSameElementReturns() {
@@ -72,6 +77,8 @@ void whenEnqueueAndDequeueTheSameElementReturns() {
     } else {
         printf("whenEnqueueAndDequeueTheSameElementReturns: Failed!\n");
     }
+    destroy(pQueue);
+    free(dequeuedElement);
 }
 
 void whenEnqueueAndMaxSizeIsOneThenDequeueCorrectly() {
@@ -87,6 +94,9 @@ void whenEnqueueAndMaxSizeIsOneThenDequeueCorrectly() {
     } else {
         printf("whenEnqueueAndMaxSizeIsOneThenDequeueCorrectly: Failed!\n");
     }
+    destroy(pQueue);
+    free(dequeuedElement1);
+    free(dequeuedElement2);
 }
 
 void whenEnqueueSameDataTypesThenDequeuesCorrectly() {
@@ -107,6 +117,10 @@ void whenEnqueueSameDataTypesThenDequeuesCorrectly() {
     } else {
         printf("whenEnqueueSameDataTypesThenDequeuesCorrectly: Failed!\n");
     }
+    destroy(pQueue);
+    free(dequeuedElement1);
+    free(dequeuedElement2);
+    free(dequeuedElement3);
 }
 
 void whenAddDifferentDataTypesToQueueThenDequeuesCorrectly() {
@@ -129,12 +143,17 @@ void whenAddDifferentDataTypesToQueueThenDequeuesCorrectly() {
     } else {
         printf("whenAddDifferentDataTypesToQueueThenDequeuesCorrectly: Failed!\n");
     }
+    destroy(pQueue);
+    free(dequeuedElement1);
+    free(dequeuedElement2);
+    free(dequeuedElement3);
+    free(dequeuedElement4);
 }
 
 void finalTest() {
     printf("Teste final do professor \n");
     pPilha pPilha, pPilha2;
-    ppPilha pPilhaDequeued;
+    ppPilha pPilhaDequeued, pPilhaDequeued2;
     // Crie uma fila circular c/ 3 posições
     pQueue pQueue = init(3);
     // Crie 1 pilha c/ 10 posições
@@ -168,12 +187,14 @@ void finalTest() {
     topo(*pPilhaDequeued, &topoRet);
     printf("Topo da pilha retornada: %d\n", topoRet);
     // Desenfileire a pilha
-    dequeue(pQueue);
+    pPilhaDequeued2 = dequeue(pQueue);
     // Destrua a pilha (destruí as duas)
     destroipilha(&pPilha);
     destroipilha(&pPilha2);
     // Destrua a fila
     destroy(pQueue);
+    free(pPilhaDequeued);
+    free(pPilhaDequeued2);
 }
 
 int main() {
