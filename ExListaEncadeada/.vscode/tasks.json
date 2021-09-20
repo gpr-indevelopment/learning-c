@@ -5,7 +5,8 @@
         "label": "valgrind",
         "command": "valgrind",
         "args": [
-          "./Aplicacao"
+          "./Aplicacao",
+          "--leak-check=full"
         ],
         "problemMatcher": {
           "owner": "cpp",
@@ -30,8 +31,7 @@
           "-I${fileDirname}",
           "-Wall",
           "Aplicacao.c",
-          "Fila.c",
-          "pilha.o",
+          "ListaEncadeada.c",
           "-o",
           "Aplicacao"
         ],
