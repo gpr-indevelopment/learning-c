@@ -17,3 +17,5 @@ struct Node {
 pNode createNode(void* element, int elementSize);
 
 void destroyNode(pNode pNode);
+
+pNode getNodeAtPos(pLinkedList pLinkedList, int pos);

@@ -53,6 +53,27 @@ void insertFirst(pLinkedList pLinkedList, void* element) {
     pLinkedList->currentSize++;
 }
 
+void* insertPos(pLinkedList pLinkedList, void* element, int pos) {
+    if (pos == 0) {
+        insertFirst(pLinkedList, element);
+        return pLinkedList->first->element;
+    }
+    pNode previousNode = getNodeAtPos(pLinkedList, pos-1);
+    if (previousNode != NULL) {
+        pNode insertedNode = createNode(element, pLinkedList->elementSize);
+        insertedNode->previous = previousNode;
+        pNode existingNodeAtPos = previousNode->next;
+        if (existingNodeAtPos != NULL) {
+            insertedNode->next = existingNodeAtPos->next;
+            destroyNode(existingNodeAtPos);
+        }
+        previousNode->next = insertedNode;
+        pLinkedList->currentSize++;
+        return element;
+    }
+    return NULL;
+}
+
 int getSize(pLinkedList pLinkedList) {
     return pLinkedList->currentSize;
 }
@@ -80,6 +101,21 @@ void removeFirst(pLinkedList pLinkedList) {
     pLinkedList->currentSize--;
 }
 
+pLinkedList restart(pLinkedList pLinkedList) {
+    int elementSize = pLinkedList->elementSize;
+    destroy(pLinkedList);
+    return init(elementSize);
+}
+
+void* get(pLinkedList pLinkedList, int pos) {
+    void* result = NULL;
+    pNode correspondingNode = getNodeAtPos(pLinkedList, pos);
+    if (correspondingNode != NULL) {
+        result = correspondingNode->element;
+    }
+    return result;
+}
+
 pNode createNode(void* element, int elementSize) {
     pNode pNode = malloc(sizeof(struct Node));
     void* nodeElement = malloc(elementSize);
@@ -93,4 +129,15 @@ pNode createNode(void* element, int elementSize) {
 void destroyNode(pNode pNode) {
     free(pNode->element);
     free(pNode);
+}
+
+pNode getNodeAtPos(pLinkedList pLinkedList, int pos) {
+    if (pos < 0 || getSize(pLinkedList) <= pos) {
+        return NULL;
+    }
+    pNode currentNode = pLinkedList->first;
+    for (int i = 0; i < pos; i++) {
+        currentNode = currentNode->next;
+    }
+    return currentNode;
 }
