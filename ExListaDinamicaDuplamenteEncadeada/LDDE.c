@@ -2,10 +2,9 @@
 #include "string.h"
 #include "LDDE_privado.h"
 
-pLinkedList init(int elementSize) {
+pLinkedList init() {
     pLinkedList pLinkedList = malloc(sizeof(struct LinkedList));
     pLinkedList->currentSize = 0;
-    pLinkedList->elementSize = elementSize;
     pLinkedList->first = NULL;
     pLinkedList->last = NULL;
     return pLinkedList;
@@ -15,18 +14,24 @@ void* getFirst(pLinkedList pLinkedList) {
     if (getSize(pLinkedList) == 0) {
         return NULL;
     }
-    return pLinkedList->first->element;
+    int elementSize = pLinkedList->first->elementSize;
+    void* result = malloc(elementSize);
+    memcpy(result, pLinkedList->first->element, elementSize);
+    return result;
 }
 
 void* getLast(pLinkedList pLinkedList) {
     if (getSize(pLinkedList) == 0) {
         return NULL;
     }
-    return pLinkedList->last->element;
+    int elementSize = pLinkedList->last->elementSize;
+    void* result = malloc(elementSize);
+    memcpy(result, pLinkedList->last->element, elementSize);
+    return result;
 }
 
-void insertLast(pLinkedList pLinkedList, void* element) {
-    pNode createdNode = createNode(element, pLinkedList->elementSize);
+void insertLast(pLinkedList pLinkedList, void* element, int elementSize) {
+    pNode createdNode = createNode(element, elementSize);
     pNode currentLast = pLinkedList->last;
     if (currentLast != NULL) {
         currentLast->next = createdNode;
@@ -39,8 +44,8 @@ void insertLast(pLinkedList pLinkedList, void* element) {
     pLinkedList->currentSize++;
 }
 
-void insertFirst(pLinkedList pLinkedList, void* element) {
-    pNode createdNode = createNode(element, pLinkedList->elementSize);
+void insertFirst(pLinkedList pLinkedList, void* element, int elementSize) {
+    pNode createdNode = createNode(element, elementSize);
     pNode currentFirst = pLinkedList->first;
     if (currentFirst != NULL) {
         currentFirst->previous = createdNode;
@@ -53,14 +58,15 @@ void insertFirst(pLinkedList pLinkedList, void* element) {
     pLinkedList->currentSize++;
 }
 
-void* insertPos(pLinkedList pLinkedList, void* element, int pos) {
+int insertPos(pLinkedList pLinkedList, void* element, int elementSize, int pos) {
     if (pos == 0) {
-        insertFirst(pLinkedList, element);
-        return pLinkedList->first->element;
+        insertFirst(pLinkedList, element, elementSize);
+        pLinkedList->currentSize++;
+        return 0;
     }
     pNode previousNode = getNodeAtPos(pLinkedList, pos-1);
     if (previousNode != NULL) {
-        pNode insertedNode = createNode(element, pLinkedList->elementSize);
+        pNode insertedNode = createNode(element, elementSize);
         insertedNode->previous = previousNode;
         pNode existingNodeAtPos = previousNode->next;
         if (existingNodeAtPos != NULL) {
@@ -69,9 +75,9 @@ void* insertPos(pLinkedList pLinkedList, void* element, int pos) {
         }
         previousNode->next = insertedNode;
         pLinkedList->currentSize++;
-        return element;
+        return 0;
     }
-    return NULL;
+    return 1;
 }
 
 int getSize(pLinkedList pLinkedList) {
@@ -101,17 +107,51 @@ void removeFirst(pLinkedList pLinkedList) {
     pLinkedList->currentSize--;
 }
 
+void removeLast(pLinkedList pLinkedList) {
+    pNode last = pLinkedList->last;
+    if (last->previous != NULL) {
+        pNode newLast = last->previous;
+        pLinkedList->last = newLast;
+        newLast->next = NULL;
+    } else {
+        pLinkedList->last = NULL;
+    }
+    destroyNode(last);
+    pLinkedList->currentSize--;
+}
+
+int removePos(pLinkedList pLinkedList, int pos) {
+    if (pos == 0) {
+        removeFirst(pLinkedList);
+        pLinkedList->currentSize--;
+        return 0;
+    }
+    pNode previousNode = getNodeAtPos(pLinkedList, pos-1);
+    if (previousNode != NULL) {
+        pNode nodeBeingRemoved = previousNode->next;
+        if (nodeBeingRemoved != NULL) {
+            previousNode->next = nodeBeingRemoved->next;
+            nodeBeingRemoved->next->previous = previousNode;
+            destroyNode(nodeBeingRemoved);
+            pLinkedList->currentSize--;
+            return 0;
+        }
+    }
+    return 1;
+}
+
 pLinkedList restart(pLinkedList pLinkedList) {
-    int elementSize = pLinkedList->elementSize;
     destroy(pLinkedList);
-    return init(elementSize);
+    return init();
 }
 
 void* get(pLinkedList pLinkedList, int pos) {
     void* result = NULL;
     pNode correspondingNode = getNodeAtPos(pLinkedList, pos);
     if (correspondingNode != NULL) {
-        result = correspondingNode->element;
+        int elementSize = correspondingNode->elementSize;
+        result = malloc(elementSize);
+        memcpy(result, correspondingNode->element, elementSize);
     }
     return result;
 }
@@ -123,6 +163,7 @@ pNode createNode(void* element, int elementSize) {
     pNode->element = nodeElement;
     pNode->next = NULL;
     pNode->previous = NULL;
+    pNode->elementSize = elementSize;
     return pNode;
 }
 

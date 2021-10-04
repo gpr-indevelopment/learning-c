@@ -2,7 +2,7 @@
 #include "Aplicacao.h"
 
 void whenInitializeListThenItsEmpty() {
-    pLinkedList pLinkedList = init(sizeof(int));
+    pLinkedList pLinkedList = init();
     int size = getSize(pLinkedList);
     if (size == 0) {
         printf("whenInitializeListThenItsEmpty: Success!\n");
@@ -13,9 +13,9 @@ void whenInitializeListThenItsEmpty() {
 }
 
 void whenInsertLastAndGetFirstThenSameElementReturns() {
-    pLinkedList pLinkedList = init(sizeof(int));
+    pLinkedList pLinkedList = init();
     int element = 4;
-    insertLast(pLinkedList, &element);
+    insertLast(pLinkedList, &element, sizeof(int));
     int* returnedElement = getFirst(pLinkedList);
     if (*returnedElement == element) {
         printf("whenInsertLastAndGetFirstThenSameElementReturns: Success!\n");
@@ -26,9 +26,9 @@ void whenInsertLastAndGetFirstThenSameElementReturns() {
 }
 
 void whenInsertLastAndGetLastThenSameElementReturns() {
-    pLinkedList pLinkedList = init(sizeof(int));
+    pLinkedList pLinkedList = init();
     int element = 4;
-    insertLast(pLinkedList, &element);
+    insertLast(pLinkedList, &element, sizeof(int));
     int* returnedElement = getLast(pLinkedList);
     if (*returnedElement == element) {
         printf("whenInsertLastAndGetLastThenSameElementReturns: Success!\n");
@@ -39,7 +39,7 @@ void whenInsertLastAndGetLastThenSameElementReturns() {
 }
 
 void whenListIsEmptyAndGetFirstThenReturnNull() {
-    pLinkedList pLinkedList = init(sizeof(int));
+    pLinkedList pLinkedList = init();
     int* returnedElement = getFirst(pLinkedList);
     if (returnedElement == NULL) {
         printf("whenListIsEmptyAndGetFirstThenReturnNull: Success!\n");
@@ -50,7 +50,7 @@ void whenListIsEmptyAndGetFirstThenReturnNull() {
 }
 
 void whenListIsEmptyAndGetLastThenReturnNull() {
-    pLinkedList pLinkedList = init(sizeof(int));
+    pLinkedList pLinkedList = init();
     int* returnedElement = getLast(pLinkedList);
     if (returnedElement == NULL) {
         printf("whenListIsEmptyAndGetLastThenReturnNull: Success!\n");
@@ -61,9 +61,9 @@ void whenListIsEmptyAndGetLastThenReturnNull() {
 }
 
 void whenInsertFirstAndRemoveFirstThenIsEmptyAndGetFirstIsNull() {
-    pLinkedList pLinkedList = init(sizeof(int));
+    pLinkedList pLinkedList = init();
     int element = 4;
-    insertFirst(pLinkedList, &element);
+    insertFirst(pLinkedList, &element, sizeof(int));
     removeFirst(pLinkedList);
     int* returnedElement = getFirst(pLinkedList);
     if (getSize(pLinkedList) == 0 && returnedElement == NULL) {
@@ -75,9 +75,9 @@ void whenInsertFirstAndRemoveFirstThenIsEmptyAndGetFirstIsNull() {
 }
 
 void whenInsertAndRestartThenNewListIsEmpty() {
-    pLinkedList pLinkedList = init(sizeof(int));
+    pLinkedList pLinkedList = init();
     int element = 4;
-    insertFirst(pLinkedList, &element);
+    insertFirst(pLinkedList, &element, sizeof(int));
     pLinkedList = restart(pLinkedList);
     int* returnedElement = getFirst(pLinkedList);
     if (getSize(pLinkedList) == 0 && returnedElement == NULL) {
@@ -100,9 +100,9 @@ void whenNewListGetElementAt0ReturnsNull() {
 }
 
 void whenInsertElementAndGetPos0ThenReturns() {
-    pLinkedList pLinkedList = init(sizeof(int));
+    pLinkedList pLinkedList = init();
     int element = 4;
-    insertFirst(pLinkedList, &element);
+    insertFirst(pLinkedList, &element, sizeof(int));
     int* returnedElement = get(pLinkedList, 0);
     int* returnedElement2 = get(pLinkedList, 1);
     if (*returnedElement == element && returnedElement2 == NULL) {
@@ -114,10 +114,10 @@ void whenInsertElementAndGetPos0ThenReturns() {
 }
 
 void whenInsertAtPos1AndEmptyListThenFailure() {
-    pLinkedList pLinkedList = init(sizeof(int));
+    pLinkedList pLinkedList = init();
     int element = 4;
-    int* expectedInserted = insertPos(pLinkedList, &element, 1);
-    if (expectedInserted == NULL) {
+    int expectedInserted = insertPos(pLinkedList, &element, sizeof(int), 1);
+    if (expectedInserted == 1) {
         printf("whenInsertAtPos1AndEmptyListThenFailure: Success!\n");
     } else {
         printf("whenInsertAtPos1AndEmptyListThenFailure: Failed!\n");
@@ -126,10 +126,10 @@ void whenInsertAtPos1AndEmptyListThenFailure() {
 }
 
 void whenInsertAtPos0AndEmptyListThenSuccess() {
-    pLinkedList pLinkedList = init(sizeof(int));
+    pLinkedList pLinkedList = init();
     int element = 4;
-    int* expectedInserted = insertPos(pLinkedList, &element, 0);
-    if (*expectedInserted == element) {
+    int expectedInserted = insertPos(pLinkedList, &element, sizeof(int), 0);
+    if (expectedInserted == 0) {
         printf("whenInsertAtPos0AndEmptyListThenSuccess: Success!\n");
     } else {
         printf("whenInsertAtPos0AndEmptyListThenSuccess: Failed!\n");
@@ -138,23 +138,73 @@ void whenInsertAtPos0AndEmptyListThenSuccess() {
 }
 
 void whenListHas3ElementsAndInsertOnPos1ThenSuccess() {
-    pLinkedList pLinkedList = init(sizeof(int));
-    int element1 = 4;
+    pLinkedList pLinkedList = init();
+    char element1[] = "Vou colocar na lista!";
     int element2 = 5;
     int element3 = 6;
-    insertLast(pLinkedList, &element1);
-    insertLast(pLinkedList, &element2);
-    insertLast(pLinkedList, &element3);
+    insertLast(pLinkedList, element1, sizeof(element1));
+    insertLast(pLinkedList, &element2, sizeof(int));
+    insertLast(pLinkedList, &element3, sizeof(int));
     int element4 = 7;
-    int* returnedElement = insertPos(pLinkedList, &element4, 1);
-    int* returnedPos0 = get(pLinkedList, 0);
+    int insertPosStatus = insertPos(pLinkedList, &element4, sizeof(int), 1);
+    char* returnedPos0 = get(pLinkedList, 0);
+    int* returnedPos1 = get(pLinkedList, 1);
     int* returnedPos2 = get(pLinkedList, 2);
-    if (*returnedElement == element4 
-        && *returnedPos0 == element1
+    if (insertPosStatus == 0
+        && *returnedPos1 == element4
+        && strcmp(returnedPos0, element1) == 0
         && *returnedPos2 == element3) {
         printf("whenListHas3ElementsAndInsertOnPos1ThenSuccess: Success!\n");
     } else {
         printf("whenListHas3ElementsAndInsertOnPos1ThenSuccess: Failed!\n");
+    }
+    destroy(pLinkedList);
+}
+
+void whenInsertFirstTwoElementsAndRemoveLastThenOnlySecondAddedElementExists() {
+    pLinkedList pLinkedList = init();
+    int element1 = 4;
+    char element2[] = "Vou colocar na lista!";
+    insertFirst(pLinkedList, &element1, sizeof(int));
+    insertFirst(pLinkedList, element2, sizeof(element2));
+    removeLast(pLinkedList);
+    int actualSize = getSize(pLinkedList);
+    char* returnedPos0 = get(pLinkedList, 0);
+    int* returnedPos1 = get(pLinkedList, 1);
+    if (actualSize == 1 && strcmp(returnedPos0, element2) == 0 && returnedPos1 == NULL) {
+        printf("whenInsertFirstTwoElementsAndRemoveLastThenOnlySecondAddedElementExists: Success!\n");
+    } else {
+        printf("whenInsertFirstTwoElementsAndRemoveLastThenOnlySecondAddedElementExists: Failed!\n");
+    }
+    destroy(pLinkedList);
+}
+
+void whenInsertFirstTwiceAndGetLastThenFirstElementReturns() {
+    pLinkedList pLinkedList = init();
+    int element1 = 4;
+    int element2 = 5;
+    insertFirst(pLinkedList, &element1, sizeof(int));
+    insertFirst(pLinkedList, &element2, sizeof(int));
+    int* returnedLast = getLast(pLinkedList);
+    if (*returnedLast == element1) {
+        printf("whenInsertFirstTwiceAndGetLastThenFirstElementReturns: Success!\n");
+    } else {
+        printf("whenInsertFirstTwiceAndGetLastThenFirstElementReturns: Failed!\n");
+    }
+    destroy(pLinkedList);
+}
+
+void whenInsertFirstAndLastAndGetLastThenFirstSecondElementReturns() {
+pLinkedList pLinkedList = init();
+    int element1 = 4;
+    char element2[] = "Vou colocar na lista!";
+    insertFirst(pLinkedList, &element1, sizeof(int));
+    insertLast(pLinkedList, element2, sizeof(element2));
+    char* returnedLast = getLast(pLinkedList);
+    if (strcmp(returnedLast, element2) == 0) {
+        printf("whenInsertFirstAndLastAndGetLastThenFirstSecondElementReturns: Success!\n");
+    } else {
+        printf("whenInsertFirstAndLastAndGetLastThenFirstSecondElementReturns: Failed!\n");
     }
     destroy(pLinkedList);
 }
@@ -172,4 +222,7 @@ int main() {
     whenInsertAtPos1AndEmptyListThenFailure();
     whenInsertAtPos0AndEmptyListThenSuccess();
     whenListHas3ElementsAndInsertOnPos1ThenSuccess();
+    whenInsertFirstTwoElementsAndRemoveLastThenOnlySecondAddedElementExists();
+    whenInsertFirstTwiceAndGetLastThenFirstElementReturns();
+    whenInsertFirstAndLastAndGetLastThenFirstSecondElementReturns();
 }

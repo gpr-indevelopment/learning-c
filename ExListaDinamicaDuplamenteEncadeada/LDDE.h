@@ -2,10 +2,8 @@
 
 typedef struct LinkedList* pLinkedList;
 
-typedef struct Node* pNode;
-
-// Inicializa a lista com o tamanho do elemento (homogênea)
-pLinkedList init(int elementSize);
+// Inicializa a lista heterogênea
+pLinkedList init();
 
 // Destrói o descritor da lista e todos os nós
 void destroy(pLinkedList pLinkedList);
@@ -17,23 +15,29 @@ pLinkedList restart(pLinkedList pLinkedList);
 int getSize(pLinkedList pLinkedList);
 
 // Insere um novo elemento no início da lista
-void insertFirst();
+void insertFirst(pLinkedList pLinkedList, void* element, int elementSize);
 
 // Insere um elemento ao final da lista
-void insertLast(pLinkedList pLinkedList, void* element);
+void insertLast(pLinkedList pLinkedList, void* element, int elementSize);
 
 // Insere um elemento em uma posição da lista (0-based index). Qualquer elemento que exista
-// Na posição é descartado. Retorna o elemento inserido.
-void* insertPos(pLinkedList pLinkedList, void* element, int pos);
+// Na posição é descartado. Retorna 1 em caso de falha.
+int insertPos(pLinkedList pLinkedList, void* element, int elementSize, int pos);
 
+// Remove o primeiro elemento da lista.
 void removeFirst(pLinkedList pLinkedList);
 
+// Remove o último elemento da lista
 void removeLast(pLinkedList pLinkedList);
 
-void removePos(int pos);
+// Remove um elemento em uma posição da lista (0-based index). 
+// Retorna o elemento removido. Retorna 1 em caso de falha.
+int removePos(pLinkedList pLinkedList, int pos);
 
+// Retorna o primeiro elemento da lista
 void* getFirst(pLinkedList pLinkedList);
 
+// Retorna o último elemento da lista
 void* getLast(pLinkedList pLinkedList);
 
 // Retorna o elemento em uma posição (0-based index)

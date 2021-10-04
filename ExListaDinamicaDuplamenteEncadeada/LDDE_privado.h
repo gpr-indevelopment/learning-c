@@ -1,15 +1,17 @@
 #include "stdlib.h"
 #include "LDDE.h"
 
+typedef struct Node* pNode;
+
 struct LinkedList {
     pNode first;
     pNode last;
     int currentSize;
-    int elementSize;
 };
 
 struct Node {
     void* element;
+    int elementSize;
     pNode next;
     pNode previous;
 };
