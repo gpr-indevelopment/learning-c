@@ -1,0 +1,129 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "valgrind",
+        "command": "valgrind",
+        "args": [
+          "./Aplicacao",
+          "--leak-check=full"
+        ],
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        }
+      },
+      {
+        "label": "build",
+        "command": "gcc",
+        "args": [
+          "-I${fileDirname}",
+          "-Wall",
+          "Aplicacao.c",
+          "ABB.c",
+          "-o",
+          "Aplicacao"
+        ],
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        }
+      },
+      {
+        "label": "build lib",
+        "command": "gcc",
+        "args": [
+          "-I${fileDirname}",
+          "-Wall",
+          "ABB.c",
+          "ABB_privado.h",
+          "ABB.h",
+          "-c",
+          "ABB.c",
+          "-o",
+          "ABB.o"
+        ],
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        }
+      },
+      {
+        "label": "run windows",
+        "command": "./Aplicacao.exe",
+        "dependsOn": [
+          "build"
+        ],
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        }
+      },
+      {
+        "label": "run linux",
+        "command": "./Aplicacao",
+        "dependsOn": [
+          "build"
+        ],
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        }
+      }
+    ]
+  }
