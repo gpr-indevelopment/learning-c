@@ -27,3 +27,9 @@ void visitNodesRecursiveOrdem(pNode origin, void (* processa)(void *p));
 void visitNodesRecursivePreOrdem(pNode origin, void (* processa)(void *p));
 
 void visitNodesRecursivePosOrdem(pNode origin, void (* processa)(void *p));
+
+int removeNodeUsingSuccessor(pNode nodeToRemove, pNode parent, int side);
+
+int removeNode(pABB p, pNode nodeToRemove, pNode parent, int side);
+
+int findAndRemoveRecursive(pABB p, pNode origin, pNode parent, int side, void *item, int (* cmp)(void *p1, void *p2));
