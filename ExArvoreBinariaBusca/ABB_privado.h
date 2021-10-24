@@ -1,4 +1,4 @@
-#include <ABB.h>
+#include "ABB.h"
 
 typedef struct Node* pNode;
 
@@ -16,10 +16,14 @@ struct Node {
 
 pNode createNode(void* element, int elementSize);
 
-void findAndInsertRecursive(pNode origin, void* element, int elementSize, int (* cmp)(void *p1, void *p2));
+int findAndInsertRecursive(pNode origin, void* element, int elementSize, int (* cmp)(void *p1, void *p2));
 
 void destroySubTreeRecursive(pNode origin);
 
-int findRecursive(pNode origin, void *item, int (* cmp)(void *p1, void *p2));
+pNode findRecursive(pNode origin, void *item, int (* cmp)(void *p1, void *p2));
 
-void visitNodesRecursive(pNode origin, void (* processa)(void *p));
+void visitNodesRecursiveOrdem(pNode origin, void (* processa)(void *p));
+
+void visitNodesRecursivePreOrdem(pNode origin, void (* processa)(void *p));
+
+void visitNodesRecursivePosOrdem(pNode origin, void (* processa)(void *p));
