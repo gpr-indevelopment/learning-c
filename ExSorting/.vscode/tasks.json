@@ -1,0 +1,120 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "valgrind",
+        "command": "valgrind",
+        "args": [
+          "./aplicacao",
+          "--leak-check=full"
+        ],
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        }
+      },
+      {
+        "label": "build app",
+        "command": "gcc",
+        "args": [
+          "aplicacao.c",
+          "sort.c",
+          "-o",
+          "aplicacao"
+        ],
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        }
+      },
+      {
+        "label": "build app out",
+        "command": "gcc",
+        "args": [
+          "sort.c",
+          "aplicacao.c"
+        ],
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        }
+      },
+      {
+        "label": "run linux",
+        "command": "./aplicacao",
+        "dependsOn": [
+          "build app"
+        ],
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        }
+      },
+      {
+        "label": "run input1",
+        "command": "./a.out < inputfile.in > outputfile.out",
+        "dependsOn": [
+          "build app out"
+        ],
+        "problemMatcher": {
+          "owner": "cpp",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        }
+      },
+    ]
+  }
