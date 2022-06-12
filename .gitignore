@@ -50,3 +50,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+AlgoGeneticoMochila/.vscode/configurationCache.log
+AlgoGeneticoMochila/.vscode/dryrun.log
+AlgoGeneticoMochila/.vscode/settings.json
+AlgoGeneticoMochila/.vscode/targets.log
